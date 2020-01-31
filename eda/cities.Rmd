@@ -1,0 +1,42 @@
+---
+title: "South Carolina Cities Eviction Exploratory Data Analysis"
+author: "Erin Bennett"
+date: "`r Sys.Date()`"
+output: 
+  github_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, warning=FALSE}
+# Libraries
+library(tidyverse)
+
+# Parameters
+
+input_filename <- here::here("data/cities.rds")
+```
+
+```{r read in data}
+df <- read_rds(input_filename)
+```
+
+## __q6__
+
+Why is the number of evictions a double rather than an integer?!
+
+> While other units of geography are all connected (block groups, census tracts, counties, etc.), place boundaries are separate—requiring evictions to be aggregated and estimated differently. In many cases, the estimates of eviction are non-whole numbers (e.g., 0.4, 31.5, 100.6). (from [FAQ](https://evictionlab.org/help-faq/#less-than-one-eviction))
+
+Which South Carolina city had the most evictions in 2016?
+
+```{r}
+most_evictions <- df %>%
+  drop_na(evictions) %>%
+  arrange(desc(evictions))
+most_evictions
+```
+
+`r most_evictions$name[[1]]` had the most evictions in 2016 out of all South Carolina cities with recorded numbers of evictions.
